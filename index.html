@@ -163,7 +163,48 @@
             button.textContent = '🚀 Interest Registered!';
             thankYou.classList.remove('hidden');
         }
+        
+  const button = document.getElementById('interest-button');
+  const thankYou = document.getElementById('thank-you-message');
+  const countDisplay = document.getElementById('interest-count').querySelector('span');
+  let hasVoted = localStorage.getItem('personacloud_voted');
+
+  async function registerInterest() {
+    if (hasVoted) {
+      alert("You're already on the list!");
+      return;
+    }
+
+    try {
+      const res = await fetch("http://localhost:3000/api/interest", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" }
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        countDisplay.textContent = data.count;
+        localStorage.setItem('personacloud_voted', 'true');
+        button.disabled = true;
+        button.textContent = '🚀 Interest Registered!';
+        thankYou.classList.remove('hidden');
+      } else {
+        alert("Error sending interest, try again later.");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Server not reachable. Start your Node server.");
+    }
+  }
+
+  if (hasVoted) {
+    button.disabled = true;
+    button.textContent = '🚀 Interest Registered!';
+    thankYou.classList.remove('hidden');
+  }
+
     </script>
 </body>
+
 
 </html>
