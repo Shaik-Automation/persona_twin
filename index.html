@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PersonaCloud - Your AI Twin in the Cloud</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom CSS for the Typewriter Animation */
+        .typewriter h1 {
+            overflow: hidden;
+            /* Ensures the content is not revealed until the animation */
+            border-right: .15em solid #7C3AED;
+            /* The typewriter cursor */
+            white-space: nowrap;
+            /* Keeps the content on a single line */
+            margin: 0 auto;
+            /* Centers the content */
+            letter-spacing: .10em;
+            /* Adjust as needed */
+            animation:
+                typing 4s steps(40, end),
+                blink-caret .75s step-end infinite;
+        }
+
+        /* The typing animation effect */
+        @keyframes typing {
+            from {
+                width: 0
+            }
+
+            to {
+                width: 100%
+            }
+        }
+
+        /* The typewriter cursor effect */
+        @keyframes blink-caret {
+
+            from,
+            to {
+                border-color: transparent
+            }
+
+            50% {
+                border-color: #7C3AED;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-900 text-white min-h-screen flex items-center justify-center p-4">
+
+    <main class="text-center max-w-4xl w-full">
+
+        <header class="mb-12">
+            <h2 class="text-xl text-indigo-400 font-semibold uppercase tracking-widest mb-4 opacity-0 animate-fadeIn"
+                style="animation-delay: 4.5s;">
+                PersonaCloud: The Next Wave in AI
+            </h2>
+            <div class="typewriter text-5xl md:text-7xl font-extrabold mb-6">
+                <h1>Own Your AI Identity.</h1>
+            </div>
+            <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto opacity-0 animate-fadeIn"
+                style="animation-delay: 5s;">
+                The full-stack platform where your personalized AI twin is user-owned, portable, and monetizable.
+            </p>
+        </header>
+
+        <section
+            class="bg-gray-800 p-8 md:p-12 rounded-xl shadow-2xl transition duration-500 hover:shadow-indigo-500/50">
+            <h3 class="text-3xl font-bold mb-4 text-indigo-300">
+                Do you want a platform like this?
+            </h3>
+            <p class="text-gray-400 mb-8">
+                Vote below to join the early access waitlist and help us prioritize the launch.
+            </p>
+
+            <button id="interest-button"
+                class="bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold py-4 px-10 rounded-full text-lg 
+                           shadow-lg transition duration-300 transform hover:scale-105 active:scale-95 tracking-wide disabled:opacity-50"
+                onclick="registerInterest()">
+                ⚡ YES, I need my AI Twin!
+            </button>
+
+            <div class="mt-8 text-gray-400 text-sm">
+                <p id="interest-count" class="font-mono text-indigo-400 text-xl">
+                    <span class="text-white">0</span> Founders are waiting.
+                </p>
+            </div>
+
+            <p id="thank-you-message" class="mt-4 text-green-400 font-semibold hidden">
+                Awesome! You're on the list. We'll be in touch for the beta launch.
+            </p>
+        </section>
+
+        <footer class="mt-16 text-sm text-gray-600">
+            Tech Stack: Next.js + Tailwind + GenAI
+        </footer>
+
+    </main>
+
+    <script>
+        let interestCount = 179; // A nice starting number (like the source reference)
+        const countDisplay = document.getElementById('interest-count').querySelector('span');
+        const button = document.getElementById('interest-button');
+        const thankYou = document.getElementById('thank-you-message');
+
+        // Initial Display
+        countDisplay.textContent = interestCount;
+
+        function registerInterest() {
+            if (localStorage.getItem('personacloud_voted')) {
+                // User has already clicked, prevent re-voting
+                alert("You're already on the list! We appreciate your enthusiasm.");
+                return;
+            }
+
+            // Simulate the vote being registered on a server
+            // In a real app, this would be an API call
+            interestCount++;
+            countDisplay.textContent = interestCount;
+
+            // Local storage to prevent multiple clicks
+            localStorage.setItem('personacloud_voted', 'true');
+
+            // UI updates
+            button.disabled = true;
+            button.textContent = '🚀 Interest Registered!';
+            thankYou.classList.remove('hidden');
+
+            // Simple animation for the count update
+            countDisplay.classList.add('animate-ping-once');
+            setTimeout(() => {
+                countDisplay.classList.remove('animate-ping-once');
+            }, 500);
+        }
+
+        // Add a simple fade-in animation for secondary elements (Tailwind does not have a native 'animate-fadeIn')
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes fadeIn {
+                to { opacity: 1; }
+            }
+            .animate-fadeIn {
+                animation: fadeIn 1s ease-out forwards;
+            }
+            @keyframes ping-once {
+                0% { transform: scale(1); opacity: 1; }
+                50% { transform: scale(1.1); opacity: 0.8; }
+                100% { transform: scale(1); opacity: 1; }
+            }
+            .animate-ping-once {
+                animation: ping-once 0.5s ease-out;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Check on load if the user has already voted
+        if (localStorage.getItem('personacloud_voted')) {
+            button.disabled = true;
+            button.textContent = '🚀 Interest Registered!';
+            thankYou.classList.remove('hidden');
+        }
+    </script>
+</body>
+
+</html>
